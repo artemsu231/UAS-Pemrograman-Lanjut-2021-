@@ -1,7 +1,20 @@
 ﻿Imports System.Data
 Imports System.Data.OleDb
 Public Class Pemakai
+    Sub matikan_isian()
+        txtKode.Enabled = False
+        txtNama.Enabled = True
+        cbStatus.Enabled = False
+        txtPassword.Enabled = False
+    End Sub
+    Sub aktifkan_isian()
+        txtKode.Enabled = True
+        txtNama.Enabled = True
+        cbStatus.Enabled = True
+        txtPassword.Enabled = True
+    End Sub
     Sub awal()
+        Call matikan_isian()
         btnNew.Text = "New"
         btnSimpan.Enabled = False
         btnUbah.Enabled = False
@@ -9,7 +22,7 @@ Public Class Pemakai
         btnCari.Enabled = True
         btnKeluar.Enabled = True
     End Sub
-   
+
     Sub tampilkan()
         da = New OleDbDataAdapter("SELECT * FROM Pemakai", Conn)
         ds = New DataSet
@@ -33,6 +46,7 @@ Public Class Pemakai
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+        Call aktifkan_isian()
         If btnNew.Text = "New" Then
             btnNew.Text = "Batal"
             btnSimpan.Enabled = True
@@ -53,25 +67,27 @@ Public Class Pemakai
             txtKode.Focus()
             Exit Sub
         Else
-            Call Koneksi()
-            cmd = New OleDbCommand("Select * From Pemakai where Kode='" & txtKode.Text & "'", Conn)
-            rd = cmd.ExecuteReader
-            rd.Read()
-            If Not rd.HasRows Then
-                Dim kode, nama, status, password, simpan As String
-                kode = txtKode.Text
-                nama = txtNama.Text
-                status = cbStatus.Text
-                password = txtPassword.Text
-                simpan = "INSERT INTO Pemakai  VALUES" & "('" & kode & "','" & nama & "','" & status & "','" & password & "')"
-                cmd = New OleDbCommand(simpan, Conn)
-                cmd.ExecuteNonQuery()
-                MsgBox("Sukses...!")
-                Call tampilkan()
-                Call kosongkan()
-                Call awal()
+            If MessageBox.Show("Yakin akan simpan ?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                Call Koneksi()
+                cmd = New OleDbCommand("Select * From Pemakai where Kode='" & txtKode.Text & "'", Conn)
+                rd = cmd.ExecuteReader
+                rd.Read()
+                If Not rd.HasRows Then
+                    Dim kode, nama, status, password, simpan As String
+                    kode = txtKode.Text
+                    nama = txtNama.Text
+                    status = cbStatus.Text
+                    password = txtPassword.Text
+                    simpan = "INSERT INTO Pemakai  VALUES" & "('" & kode & "','" & nama & "','" & status & "','" & password & "')"
+                    cmd = New OleDbCommand(simpan, Conn)
+                    cmd.ExecuteNonQuery()
+                    MsgBox("Simpan Sukses...!")
+                    Call tampilkan()
+                    Call kosongkan()
+                    Call awal()
+                End If
             End If
-        End If
+            End If
     End Sub
 
     Private Sub btnUbah_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUbah.Click
@@ -80,17 +96,19 @@ Public Class Pemakai
             txtKode.Focus()
             Exit Sub
         Else
-            Call Koneksi()
-            Dim kode, nama, status, password, ubah As String
-            kode = txtKode.Text
-            nama = txtNama.Text
-            status = cbStatus.Text
-            password = txtPassword.Text
-            ubah = "update Pemakai set Nama='" & nama & "',Status='" & status & "' ,Pass='" & password & "' where Kode='" & kode & "'"
-            cmd = New OleDbCommand(ubah, Conn)
-            cmd.ExecuteNonQuery()
-            MsgBox("data berhasil di update")
+            If MessageBox.Show("Yakin akan diubah ?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
 
+                Call Koneksi()
+                Dim kode, nama, status, password, ubah As String
+                kode = txtKode.Text
+                nama = txtNama.Text
+                status = cbStatus.Text
+                password = txtPassword.Text
+                ubah = "update Pemakai set Nama='" & nama & "',Status='" & status & "' ,Pass='" & password & "' where Kode='" & kode & "'"
+                cmd = New OleDbCommand(ubah, Conn)
+                cmd.ExecuteNonQuery()
+                MsgBox("data berhasil di ubah...!")
+            End If
         End If
         Call tampilkan()
         Call kosongkan()
@@ -99,6 +117,7 @@ Public Class Pemakai
     End Sub
 
     Private Sub btnCari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCari.Click
+        Call aktifkan_isian()
         btnNew.Text = "Batal"
         btnUbah.Enabled = True
         btnHapus.Enabled = True

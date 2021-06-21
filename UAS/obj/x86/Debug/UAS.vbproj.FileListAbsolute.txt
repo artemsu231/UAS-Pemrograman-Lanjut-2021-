@@ -1,0 +1,9 @@
+D:\kuliah\vb.net\UAS\UAS\bin\Debug\UAS.exe
+D:\kuliah\vb.net\UAS\UAS\bin\Debug\UAS.pdb
+D:\kuliah\vb.net\UAS\UAS\bin\Debug\UAS.xml
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.Pemakai.resources
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.Resources.resources
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.vbproj.GenerateResource.Cache
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.exe
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.xml
+D:\kuliah\vb.net\UAS\UAS\obj\x86\Debug\UAS.pdb

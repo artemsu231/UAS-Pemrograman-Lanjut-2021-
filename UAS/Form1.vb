@@ -117,31 +117,36 @@ Public Class Pemakai
     End Sub
 
     Private Sub btnCari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCari.Click
-        Call aktifkan_isian()
-        btnNew.Text = "Batal"
-        btnUbah.Enabled = True
-        btnHapus.Enabled = True
-        btnNew.Enabled = True
-        btnSimpan.Enabled = False
-        btnCari.Enabled = False
-        btnKeluar.Enabled = False
-
-        'proses pencarian
-        cmd = New OleDbCommand("SELECT * FROM Pemakai WHERE Nama like '%" & txtNama.Text & "%'", Conn)
-        rd = cmd.ExecuteReader
-        rd.Read()
-        If rd.HasRows Then
-            da = New OleDbDataAdapter("SELECT * FROM Pemakai WHERE Nama like '%" & txtNama.Text & "%'", Conn)
-            ds = New DataSet
-            da.Fill(ds, "Dapat")
-            DataGridView1.DataSource = ds.Tables("Dapat")
-            DataGridView1.ReadOnly = True
+        If txtNama.Text = "" Then
+            MsgBox("Nama tidak ditemukan...!")
         Else
-            MsgBox("Data Tidak Ditemukan")
-            Call awal()
-            Call kosongkan()
-            txtNama.Focus()
+            Call aktifkan_isian()
+            btnNew.Text = "Batal"
+            btnUbah.Enabled = True
+            btnHapus.Enabled = True
+            btnNew.Enabled = True
+            btnSimpan.Enabled = False
+            btnCari.Enabled = False
+            btnKeluar.Enabled = False
+
+            'proses pencarian
+            cmd = New OleDbCommand("SELECT * FROM Pemakai WHERE Nama like '%" & txtNama.Text & "%'", Conn)
+            rd = cmd.ExecuteReader
+            rd.Read()
+            If rd.HasRows Then
+                da = New OleDbDataAdapter("SELECT * FROM Pemakai WHERE Nama like '%" & txtNama.Text & "%'", Conn)
+                ds = New DataSet
+                da.Fill(ds, "Dapat")
+                DataGridView1.DataSource = ds.Tables("Dapat")
+                DataGridView1.ReadOnly = True
+            Else
+                MsgBox("Data Tidak Ditemukan")
+                Call awal()
+                Call kosongkan()
+                txtNama.Focus()
+            End If
         End If
+        
     End Sub
 
     Private Sub btnHapus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnHapus.Click

@@ -13,6 +13,8 @@ Module Module1
         If Conn.State = ConnectionState.Closed Then
             Conn.Open()
             'MsgBox("Konek")
+        Else
+            'MsgBox("Koneksi Gagal...!")
         End If
     End Sub
     Sub btn()

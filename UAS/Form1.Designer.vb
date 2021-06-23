@@ -81,6 +81,7 @@ Partial Class Pemakai
         'cbStatus
         '
         Me.cbStatus.FormattingEnabled = True
+        Me.cbStatus.Items.AddRange(New Object() {"PELANGGAN", "KEUANGAN", "ADMIN"})
         Me.cbStatus.Location = New System.Drawing.Point(225, 144)
         Me.cbStatus.Name = "cbStatus"
         Me.cbStatus.Size = New System.Drawing.Size(156, 21)
@@ -193,6 +194,8 @@ Partial Class Pemakai
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(546, 472)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Label6)

@@ -1,18 +1,24 @@
 ﻿Imports System.Data
 Imports System.Data.OleDb
 Public Class Pemakai
+
+    'Nama   : M. Misbachul Muhtar'
+    'Nim    : 20101005'
+
     Sub matikan_isian()
         txtKode.Enabled = False
         txtNama.Enabled = True
         cbStatus.Enabled = False
         txtPassword.Enabled = False
     End Sub
+
     Sub aktifkan_isian()
         txtKode.Enabled = True
         txtNama.Enabled = True
         cbStatus.Enabled = True
         txtPassword.Enabled = True
     End Sub
+
     Sub awal()
         Call matikan_isian()
         btnNew.Text = "New"
@@ -39,29 +45,7 @@ Public Class Pemakai
         cbStatus.Text = ""
     End Sub
 
-    Private Sub Pemakai_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call awal()
-        Call Koneksi()
-        Call tampilkan()
-    End Sub
-
-    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
-        Call aktifkan_isian()
-        If btnNew.Text = "New" Then
-            btnNew.Text = "Batal"
-            btnSimpan.Enabled = True
-            btnCari.Enabled = False
-            btnKeluar.Enabled = False
-        Else
-            btnNew.Text = "Batal"
-            Call awal()
-            Call tampilkan()
-            Call kosongkan()
-            btnNew.Text = "New"
-        End If
-    End Sub
-
-    Private Sub btnSimpan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSimpan.Click
+    Sub simpan()
         If txtKode.Text = "" Or txtNama.Text = "" Or txtPassword.Text = "" Then
             MsgBox("Data Belum Lengkap...!!")
             txtKode.Focus()
@@ -87,10 +71,41 @@ Public Class Pemakai
                     Call awal()
                 End If
             End If
-            End If
+        End If
+
     End Sub
 
-    Private Sub btnUbah_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUbah.Click
+    Sub cekData()
+        Call Koneksi()
+        cmd = New OleDbCommand("SELECT * FROM Pemakai WHERE Nama='" & txtNama.Text & "'", Conn)
+        rd = cmd.ExecuteReader
+        rd.Read()
+        If Not rd.HasRows Then
+            Call simpan()
+            txtNama.Focus()
+        Else
+            MsgBox("Nama Sudah Ada...!")
+        End If
+    End Sub
+    '___________________________________________________________________________________________________________________________'
+
+    Sub buttonNew()
+        Call aktifkan_isian()
+        If btnNew.Text = "New" Then
+            btnNew.Text = "Batal"
+            btnSimpan.Enabled = True
+            btnCari.Enabled = False
+            btnKeluar.Enabled = False
+        Else
+            btnNew.Text = "Batal"
+            Call awal()
+            Call tampilkan()
+            Call kosongkan()
+            btnNew.Text = "New"
+        End If
+    End Sub
+
+    Sub buttonUbah()
         If txtKode.Text = "" Or txtNama.Text = "" Or cbStatus.Text = "" Or txtPassword.Text = "" Then
             MsgBox("Data Belum Lengkap...!")
             txtKode.Focus()
@@ -104,7 +119,8 @@ Public Class Pemakai
                 nama = txtNama.Text
                 status = cbStatus.Text
                 password = txtPassword.Text
-                ubah = "update Pemakai set Nama='" & nama & "',Status='" & status & "' ,Pass='" & password & "' where Kode='" & kode & "'"
+                ubah = "update Pemakai set Nama='" & nama & "',Status='" & status & "' ,Pass='" & password & _
+                    "' where Kode='" & kode & "'"
                 cmd = New OleDbCommand(ubah, Conn)
                 cmd.ExecuteNonQuery()
                 MsgBox("data berhasil di ubah...!")
@@ -116,7 +132,7 @@ Public Class Pemakai
         txtKode.Focus()
     End Sub
 
-    Private Sub btnCari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCari.Click
+    Sub buttonCari()
         If txtNama.Text = "" Then
             MsgBox("Nama tidak ditemukan...!")
         Else
@@ -146,10 +162,9 @@ Public Class Pemakai
                 txtNama.Focus()
             End If
         End If
-        
     End Sub
 
-    Private Sub btnHapus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnHapus.Click
+    Sub buttonHapus()
         If txtKode.Text = "" Then
             MsgBox("silahkan pilih data yang ingin dihapus")
         Else
@@ -164,6 +179,34 @@ Public Class Pemakai
                 Call awal()
             End If
         End If
+    End Sub
+
+    '____________________________________________________________________________________________________________________________'
+
+    Private Sub Pemakai_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call awal()
+        Call Koneksi()
+        Call tampilkan()
+    End Sub
+
+    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+        Call buttonNew()
+    End Sub
+
+    Private Sub btnSimpan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSimpan.Click
+        Call cekData()
+    End Sub
+
+    Private Sub btnUbah_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUbah.Click
+        Call buttonUbah()
+    End Sub
+
+    Private Sub btnCari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCari.Click
+        Call buttonCari()
+    End Sub
+
+    Private Sub btnHapus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnHapus.Click
+        Call buttonHapus()
     End Sub
 
     Private Sub btnKeluar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnKeluar.Click
